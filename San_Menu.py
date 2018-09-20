@@ -28,6 +28,8 @@ for each in html_dishes:
     dishes.append(each.text)
 while '\xa0' in dishes: #removes a un-needed string constantly repeated
     dishes.remove('\xa0')
-print(dishes)
+for each in dishes[73:-18]:
+
+
 
 
