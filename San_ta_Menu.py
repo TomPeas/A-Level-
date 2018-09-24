@@ -11,5 +11,7 @@ headers = []
 for each in html_headers[2:-3]:
     headers.append(each.text)
 
-html_dishes =  soup.findAll('td')
+html_dishes = []
+for each in soup.findAll("td"):
+    each.append(html_dishes.text)
 print(html_dishes)
