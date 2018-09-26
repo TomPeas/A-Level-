@@ -12,4 +12,3 @@ for each in html_headers[2:-3]:
     headers.append(each.text)
 
 html_dishes =  soup.findAll('td')
-print(html_dishes)
