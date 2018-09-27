@@ -27,10 +27,11 @@ while '\xa0' in dishes: #removes a un-needed string constantly repeated
 
 prices = []
 for each in html_dishes_refined[1::3]:#find the item prices
+    str(each).strip()
     prices.append(each.text)
 while 'half £17.00' in prices: #removes an unessential item
     prices.remove('half £17.00')
 
-#for i in range(len(prices)):
- #   print('{0} {1} {2}'.format(dishe_numbers[i-1], dishes[i-1], prices[i-1]))
-print(len(prices))
+
+for i in range(len(dishes)):
+    print('{0} {1} {2}'.format(dish_numbers[i-1], dishes[i-1], prices[i-1]))
