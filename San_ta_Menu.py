@@ -1,6 +1,7 @@
 import urllib
 import urllib.request
 from bs4 import BeautifulSoup
+import pickle
 
 san_url = 'http://www.san-restaurant.com/san-finest-chinese-cuisine-take-away-menu.html'
 the_page = urllib.request.urlopen(san_url)
@@ -28,5 +29,4 @@ for each in html_dishes_refined[1::3]:#find the item prices
 while 'half £17.00' in prices: #removes an unessential item
     prices.remove('half £17.00')
 prices[30] = '£5.50'
-for i in range(len(dishes)):
-    print('{0} '.format(i) + ' ' + dishes[i] + ' ' + prices[i])
+
