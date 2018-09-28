@@ -15,10 +15,6 @@ html_dishes_refined = []
 for each in html_dishes_unrefined[32:-24]:
     html_dishes_refined.append(each)
 
-dish_numbers = []
-for each in html_dishes_refined[2::3]: # finds the item numbers
-    dish_numbers.append(each.text)
-
 dishes = []
 for each in html_dishes_refined[::3]: #finds the item names
     dishes.append(each.text)
@@ -31,7 +27,6 @@ for each in html_dishes_refined[1::3]:#find the item prices
     prices.append(each.text)
 while 'half £17.00' in prices: #removes an unessential item
     prices.remove('half £17.00')
-
-
+prices[30] = '£5.50'
 for i in range(len(dishes)):
-    print('{0} {1} {2}'.format(dish_numbers[i-1], dishes[i-1], prices[i-1]))
+    print('{0} '.format(i) + ' ' + dishes[i] + ' ' + prices[i])
