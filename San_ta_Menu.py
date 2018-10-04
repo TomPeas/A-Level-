@@ -1,4 +1,3 @@
-import urllib
 import urllib.request
 from bs4 import BeautifulSoup
 import pickle
@@ -29,21 +28,35 @@ while 'half £17.00' in prices: #removes an unessential item
     prices.remove('half £17.00')
 prices[30] = '£5.50'
 
-#organises the dishes into the menu catergories
-def menu_split(start, end):
+#organises items from a large list into a smaller list
+def split(list,start, end):
     items = []
     for i in range(start, end):
-        items.append(dishes[i])
+        items.append(list[i])
     return items
-starters = menu_split(0, 22)
-soups = menu_split(22, 30)
-poultry_dishes = menu_split(30, 45)
-beef_dishes = menu_split(45, 56)
-pork_lamb_dishes = menu_split(56, 67)
-curry_dishes = menu_split(67, 73)
-seafood_dishes = menu_split(73, 94)
-vegertarian_dishes = menu_split(94, 105)
-rice_noodel_dishes = menu_split(105, 121)
-extra_dishes = menu_split(121, 124)
+
+#uses split function to divide up the menu
+starters = split(dishes, 0, 22)
+soups = split(dishes, 22, 30)
+poultry_dishes = split(dishes, 30, 45)
+beef_dishes = split(dishes, 45, 56)
+pork_lamb_dishes = split(dishes, 56, 67)
+curry_dishes = split(dishes, 67, 73)
+seafood_dishes = split(dishes, 73, 94)
+vegertarian_dishes = split(dishes, 94, 105)
+rice_noodel_dishes = split(dishes, 105, 121)
+extra_dishes = split(dishes, 121, 124)
 
 #organises prices into corresponding menu catergories
+starters_prices = split(prices, 0, 22)
+soups_prices = split(prices, 22, 30)
+poultry_dishes_prices = split(prices, 30, 45)
+beef_dishes_prices = split(prices, 45, 56)
+pork_lamb_dishes_prices = split(prices, 56, 67)
+curry_dishes_prices = split(prices, 67, 73)
+seafood_dishes_prices = split(prices, 73, 94)
+vegertarian_dishes_prices = split(prices, 94, 105)
+rice_noodel_dishes_prices = split(prices, 105, 121)
+extra_dishes_prices = split(prices, 121, 124)
+
+with open("menu_details", 'wb') as outfile:
