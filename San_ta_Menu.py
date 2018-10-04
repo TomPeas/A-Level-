@@ -46,6 +46,7 @@ seafood_dishes = split(dishes, 73, 94)
 vegertarian_dishes = split(dishes, 94, 105)
 rice_noodel_dishes = split(dishes, 105, 121)
 extra_dishes = split(dishes, 121, 124)
+menu = [starters, soups, poultry_dishes, beef_dishes, pork_lamb_dishes, curry_dishes, seafood_dishes, vegertarian_dishes, rice_noodel_dishes, extra_dishes]
 
 #organises prices into corresponding menu catergories
 starters_prices = split(prices, 0, 22)
@@ -58,5 +59,8 @@ seafood_dishes_prices = split(prices, 73, 94)
 vegertarian_dishes_prices = split(prices, 94, 105)
 rice_noodel_dishes_prices = split(prices, 105, 121)
 extra_dishes_prices = split(prices, 121, 124)
+menu_prices = [starters_prices, soups_prices, poultry_dishes_prices, beef_dishes_prices, pork_lamb_dishes_prices, curry_dishes_prices, seafood_dishes_prices, vegertarian_dishes_prices, rice_noodel_dishes_prices, extra_dishes_prices]
 
 with open("menu_details", 'wb') as outfile:
+    pickle.dump(menu, outfile)
+    pickle.dump(menu_prices, outfile)
