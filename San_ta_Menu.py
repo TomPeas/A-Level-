@@ -16,26 +16,26 @@ for each in html_dishes_unrefined[32:-24]:
     html_dishes_refined.append(each)
 
 dishes = []
-for each in html_dishes_refined[::3]: #finds the item names
+for each in html_dishes_refined[::3]:  # finds the item names
     dishes.append(each.text)
-while '\xa0' in dishes: #removes a un-needed string constantly repeated
+while '\xa0' in dishes:   # removes a un-needed string constantly repeated
     dishes.remove('\xa0')
 
 prices = []
-for each in html_dishes_refined[1::3]:#find the item prices
+for each in html_dishes_refined[1::3]:  # find the item prices
     prices.append(each.text)
-while 'half £17.00' in prices: #removes an unessential item
+while 'half £17.00' in prices:  # removes an unessential item
     prices.remove('half £17.00')
 prices[30] = '£5.50'
 
-#organises items from a large list into a smaller list
+# organises items from a large list into a smaller list
 def split(list,start, end):
     items = []
     for i in range(start, end):
         items.append(list[i])
     return items
 
-#uses split function to divide up the menu
+# uses split function to divide up the menu
 starters = split(dishes, 0, 22)
 soups = split(dishes, 22, 30)
 poultry_dishes = split(dishes, 30, 45)
@@ -48,7 +48,7 @@ rice_noodel_dishes = split(dishes, 105, 121)
 extra_dishes = split(dishes, 121, 124)
 menu = [starters, soups, poultry_dishes, beef_dishes, pork_lamb_dishes, curry_dishes, seafood_dishes, vegertarian_dishes, rice_noodel_dishes, extra_dishes]
 
-#organises prices into corresponding menu catergories
+# organises prices into corresponding menu catergories
 starters_prices = split(prices, 0, 22)
 soups_prices = split(prices, 22, 30)
 poultry_dishes_prices = split(prices, 30, 45)
