@@ -62,5 +62,7 @@ extra_dishes_prices = split(prices, 121, 124)
 menu_prices = [starters_prices, soups_prices, poultry_dishes_prices, beef_dishes_prices, pork_lamb_dishes_prices, curry_dishes_prices, seafood_dishes_prices, vegertarian_dishes_prices, rice_noodel_dishes_prices, extra_dishes_prices]
 
 with open("menu_details", 'wb') as outfile:
-    pickle.dump(menu, outfile)
-    pickle.dump(menu_prices, outfile)
+    for each in menu:
+        pickle.dump(each, outfile)
+    for each in menu_prices:
+        pickle.dump(each, outfile)
