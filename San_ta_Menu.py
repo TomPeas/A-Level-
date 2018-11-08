@@ -35,36 +35,58 @@ def split(list,start, end):
         items.append(list[i])
     return items
 
-#uses split function to divide up the menu
-starters = split(dishes, 0, 22)
-soups = split(dishes, 22, 30)
-poultry_dishes = split(dishes, 30, 45)
-beef_dishes = split(dishes, 45, 56)
-pork_lamb_dishes = split(dishes, 56, 67)
-curry_dishes = split(dishes, 67, 73)
-seafood_dishes = split(dishes, 73, 94)
-vegertarian_dishes = split(dishes, 94, 105)
-rice_noodel_dishes = split(dishes, 105, 121)
-extra_dishes = split(dishes, 121, 124)
-menu = [starters, soups, poultry_dishes, beef_dishes, pork_lamb_dishes, curry_dishes, seafood_dishes, vegertarian_dishes, rice_noodel_dishes, extra_dishes]
+with open('menu_details', 'wb') as outfile:
+    #uses split function to divide up the menu
+    starters = split(dishes, 0, 22)
+    pickle.dump(starters, outfile)
+    soups = split(dishes, 22, 30)
+    pickle.dump(soups, outfile)
+    poultry_dishes = split(dishes, 30, 45)
+    pickle.dump(poultry_dishes, outfile)
+    beef_dishes = split(dishes, 45, 56)
+    pickle.dump(beef_dishes, outfile)
+    pork_lamb_dishes = split(dishes, 56, 67)
+    pickle.dump(pork_lamb_dishes, outfile)
+    curry_dishes = split(dishes, 67, 73)
+    pickle.dump(curry_dishes, outfile)
+    seafood_dishes = split(dishes, 73, 94)
+    pickle.dump(seafood_dishes, outfile)
+    vegertarian_dishes = split(dishes, 94, 105)
+    pickle.dump(vegertarian_dishes, outfile)
+    rice_noodel_dishes = split(dishes, 105, 121)
+    pickle.dump(rice_noodel_dishes, outfile)
+    extra_dishes = split(dishes, 121, 124)
+    pickle.dump(extra_dishes, outfile)
+    menu = [starters, soups, poultry_dishes, beef_dishes, pork_lamb_dishes, curry_dishes, seafood_dishes, vegertarian_dishes, rice_noodel_dishes, extra_dishes]
+    pickle.dump(menu, outfile)
 
-#organises prices into corresponding menu catergories
-starters_prices = split(prices, 0, 22)
-soups_prices = split(prices, 22, 30)
-poultry_dishes_prices = split(prices, 30, 45)
-beef_dishes_prices = split(prices, 45, 56)
-pork_lamb_dishes_prices = split(prices, 56, 67)
-curry_dishes_prices = split(prices, 67, 73)
-seafood_dishes_prices = split(prices, 73, 94)
-vegertarian_dishes_prices = split(prices, 94, 105)
-rice_noodel_dishes_prices = split(prices, 105, 121)
-extra_dishes_prices = split(prices, 121, 124)
-menu_prices = [starters_prices, soups_prices, poultry_dishes_prices, beef_dishes_prices, pork_lamb_dishes_prices, curry_dishes_prices, seafood_dishes_prices, vegertarian_dishes_prices, rice_noodel_dishes_prices, extra_dishes_prices]
-
-with open("menu_details", 'wb') as outfile:
-    pickle.dump(menu)
-    for each in menu:
-        pickle.dump(each, outfile)
-    menu_prices
-    for each in menu_prices:
-        pickle.dump(each, outfile)
+    #organises prices into corresponding menu catergories
+    starters_prices = split(prices, 0, 22)
+    pickle.dump(starters_prices, outfile)
+    soups_prices = split(prices, 22, 30)
+    pickle.dump(soups_prices, outfile)
+    poultry_dishes_prices = split(prices, 30, 45)
+    pickle.dump(poultry_dishes_prices, outfile)
+    beef_dishes_prices = split(prices, 45, 56)
+    pickle.dump(beef_dishes_prices, outfile)
+    pork_lamb_dishes_prices = split(prices, 56, 67)
+    pickle.dump(pork_lamb_dishes_prices, outfile)
+    curry_dishes_prices = split(prices, 67, 73)
+    pickle.dump(curry_dishes_prices, outfile)
+    seafood_dishes_prices = split(prices, 73, 94)
+    pickle.dump(seafood_dishes_prices, outfile)
+    vegertarian_dishes_prices = split(prices, 94, 105)
+    pickle.dump(vegertarian_dishes_prices, outfile)
+    rice_noodel_dishes_prices = split(prices, 105, 121)
+    pickle.dump(rice_noodel_dishes_prices, outfile)
+    extra_dishes_prices = split(prices, 121, 124)
+    pickle.dump(extra_dishes_prices, outfile)
+    menu_prices = [starters_prices, soups_prices, poultry_dishes_prices, beef_dishes_prices, pork_lamb_dishes_prices, curry_dishes_prices, seafood_dishes_prices, vegertarian_dishes_prices, rice_noodel_dishes_prices, extra_dishes_prices]
+    pickle.dump(menu_prices, outfile)
+#with open("menu_details", 'wb') as outfile:
+ #   pickle.dump(menu)
+  #  for each in menu:
+   #     pickle.dump(each, outfile)
+    #pickle.dump(menu_prices, outfile)
+    #for each in menu_prices:
+    #    pickle.dump(each, outfile)
