@@ -38,6 +38,7 @@ def add_item(sql, id, name, type):
     type = type
     data = (id, name, type)
     db.update_table(sql, data)
+
 def add_link(sql, DishID, PriceID):
     num = 000
     for i in range(len(DishID)):
