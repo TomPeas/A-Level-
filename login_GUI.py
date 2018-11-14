@@ -1,5 +1,7 @@
 from tkinter import *
 import sqlite3
+import hashlib
+import uuid
 
 class Database:
     def __init__(self, db_name):
@@ -19,6 +21,15 @@ insert_user_sql = ''' INSERT INTO Login_Info( UserID, Username, Email, Password)
 
 db = Database('Santa_Login_info.db')
 db.create_table(tbl_login_sql)
+
+# hashes a generated password
+def hash_password(password):
+    num = uuid.uuid4().hex
+    return hashlib.sha256(num.encode() + password.encode()).hexdigest() + ':' + num
+
+def check_password(hashed_password, user_password):
+    password, num = hashed_password.split(':')
+    return password == hashlib.sha256(num.encode() + user_password.encode()).hexdigest()
 
 class NewUser:
     def __init__(self, window):
@@ -57,7 +68,7 @@ class NewUser:
             userid = data.read()
         name = (self.name_entry.get())
         email = (self.email_entry.get())
-        password = (self.pass_entry.get())
+        password = hash_password(self.pass_entry.get())
         data = (userid, name, email, password)
         db.update_table(insert_user_sql, data)
         with open('cur_user_id.txt', 'w') as data:
