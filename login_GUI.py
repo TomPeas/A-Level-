@@ -40,16 +40,50 @@ class Menu:
         top_frame = LabelFrame(self.window)
         top_frame.grid(row = 0, column = 0)
 
-        Button(top_frame, text = 'Create Account', command = self.open_create).grid( row = 3, column = 0)
+        Button(top_frame, text = 'Create Account', command = self.new_user).grid( row = 0, column = 0)
+        Button(top_frame, text = 'Login', command = self.login_window).grid( row = 1, column = 0)
 
-    def open_create(self):
+
+    def new_user(self):
         page2 = Tk()
         page2.geometry('500x500')
         NewUser(page2)
 
+    def login_window(self):
+        page3 = Tk()
+        page3.geometry('500x500')
+        UserLogin(page3)
+
     def quit(self, window):
         window.destroy()
 
+class UserLogin:
+    def __init__(self, window):
+        self.window = window
+        self.window.title('Login')
+
+        top_frame = LabelFrame(self.window)
+        top_frame.grid(row = 0, column = 0)
+
+        Label(top_frame, text = 'Username:').grid(row = 0, column = 0)
+        self.username = Entry(top_frame)
+        self.username.grid(row = 0, column = 1)
+
+        Label(top_frame, text = 'Password:').grid(row = 1, column = 0)
+        self.password = Entry(top_frame)
+        self.password.grid(row = 1, column = 1)
+
+        bottom_frame = LabelFrame(self.window)
+        bottom_frame.grid(row = 1, column = 0)
+
+        Button(bottom_frame, text = 'Login', command = lambda: self.login(window)).grid(row = 0, column = 0)
+        Button(bottom_frame, text = 'Quit', command = lambda: self.quit(window)).grid(row = 0, column = 2)
+
+    def login(self, window):
+        print('placeholder')
+
+    def quit(self, window):
+        window.destroy()
 
 class NewUser:
     def __init__(self, window):
