@@ -16,6 +16,7 @@ class Database:
     def update_table(self, sql, data):
         self.cursor.execute(sql, data)
         self.connect.commit()
+
 tbl_login_sql = ''' CREATE TABLE IF NOT EXISTS Login_Info(UserID text PRIMARY KEY, Username text NOT NULL, Email text NOT NULL, Password text NOT NULL)'''
 insert_user_sql = ''' INSERT INTO Login_Info( UserID, Username, Email, Password) values (?,?,?,?)'''
 
@@ -30,6 +31,25 @@ def hash_password(password):
 def check_password(hashed_password, user_password):
     password, num = hashed_password.split(':')
     return password == hashlib.sha256(num.encode() + user_password.encode()).hexdigest()
+
+class Menu:
+    def __init__(self, window):
+        self.window = window
+        self.window.title('Start Menu')
+
+        top_frame = LabelFrame(self.window)
+        top_frame.grid(row = 0, column = 0)
+
+        Button(top_frame, text = 'Create Account', command = self.open_create).grid( row = 3, column = 0)
+
+    def open_create(self):
+        page2 = Tk()
+        page2.geometry('500x500')
+        NewUser(page2)
+
+    def quit(self, window):
+        window.destroy()
+
 
 class NewUser:
     def __init__(self, window):
@@ -60,10 +80,10 @@ class NewUser:
         bottom_frame = LabelFrame(self.window)
         bottom_frame.grid(row = 6, column = 0)
 
-        Button(bottom_frame, text = 'Create', command = self.create).grid(row = 0, column = 0)
-        Button(bottom_frame, text = 'Quit', command = self.quit).grid(row = 0, column = 2)
+        Button(bottom_frame, text = 'Create', command = lambda: self.create(window)).grid(row = 0, column = 0)
+        Button(bottom_frame, text = 'Quit', command = lambda: self.quit(window)).grid(row = 0, column = 2)
 
-    def create(self):
+    def create(self,window):
         with open('cur_user_id.txt', 'r') as data:
             userid = data.read()
         name = (self.name_entry.get())
@@ -75,12 +95,13 @@ class NewUser:
             userid = int(userid) + 1
             userid = str(userid)
             data.write(userid)
-
-    def quit(self):
         window.destroy()
 
-if __name__ == '__main__':
-    window = Tk()
-    window.geometry('200x100')
-    newuser = NewUser(window)
-    window.mainloop()
+
+    def quit(self, window):
+        window.destroy()
+
+page1 = Tk()
+page1.geometry('500x500')
+Menu(page1)
+page1.mainloop()
