@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 import sqlite3
 import hashlib
 import uuid
@@ -17,9 +18,13 @@ class Database:
         self.cursor.execute(sql, data)
         self.connect.commit()
 
+    def find_password(self, data):
+        self.cursor.execute(''' SELECT Password FROM Login_Info WHERE Username = ? ''', (data,))
+        stored_pass = self.cursor.fetchall()
+        return stored_pass
+
 tbl_login_sql = ''' CREATE TABLE IF NOT EXISTS Login_Info(UserID text PRIMARY KEY, Username text NOT NULL, Email text NOT NULL, Password text NOT NULL)'''
 insert_user_sql = ''' INSERT INTO Login_Info( UserID, Username, Email, Password) values (?,?,?,?)'''
-
 db = Database('Santa_Login_info.db')
 db.create_table(tbl_login_sql)
 
@@ -28,6 +33,7 @@ def hash_password(password):
     num = uuid.uuid4().hex
     return hashlib.sha256(num.encode() + password.encode()).hexdigest() + ':' + num
 
+# checks the hash password against the user entered password
 def check_password(hashed_password, user_password):
     password, num = hashed_password.split(':')
     return password == hashlib.sha256(num.encode() + user_password.encode()).hexdigest()
@@ -42,7 +48,7 @@ class Menu:
 
         Button(top_frame, text = 'Create Account', command = self.new_user).grid( row = 0, column = 0)
         Button(top_frame, text = 'Login', command = self.login_window).grid( row = 1, column = 0)
-
+        Button(top_frame, text = 'Quit', command = self.window.destroy).grid( row = 3, column = 0)
 
     def new_user(self):
         page2 = Tk()
@@ -53,9 +59,6 @@ class Menu:
         page3 = Tk()
         page3.geometry('500x500')
         UserLogin(page3)
-
-    def quit(self, window):
-        window.destroy()
 
 class UserLogin:
     def __init__(self, window):
@@ -77,13 +80,16 @@ class UserLogin:
         bottom_frame.grid(row = 1, column = 0)
 
         Button(bottom_frame, text = 'Login', command = lambda: self.login(window)).grid(row = 0, column = 0)
-        Button(bottom_frame, text = 'Quit', command = lambda: self.quit(window)).grid(row = 0, column = 2)
+        Button(bottom_frame, text = 'Quit', command = lambda: self.window.destroy).grid(row = 0, column = 2)
 
     def login(self, window):
-        print('placeholder')
-
-    def quit(self, window):
-        window.destroy()
+        username = (self.username.get())
+        user_password = (self.password.get())
+        stored_password = db.find_password(username)
+        print(stored_password[0])
+        if check_password(str(stored_password), str(user_password)):
+            #whatever the next window is
+            window.destroy()
 
 class NewUser:
     def __init__(self, window):
@@ -115,7 +121,7 @@ class NewUser:
         bottom_frame.grid(row = 6, column = 0)
 
         Button(bottom_frame, text = 'Create', command = lambda: self.create(window)).grid(row = 0, column = 0)
-        Button(bottom_frame, text = 'Quit', command = lambda: self.quit(window)).grid(row = 0, column = 2)
+        Button(bottom_frame, text = 'Quit', command = self.window.destroy).grid(row = 0, column = 2)
 
     def create(self,window):
         with open('cur_user_id.txt', 'r') as data:
@@ -131,9 +137,6 @@ class NewUser:
             data.write(userid)
         window.destroy()
 
-
-    def quit(self, window):
-        window.destroy()
 
 page1 = Tk()
 page1.geometry('500x500')
