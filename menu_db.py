@@ -1,19 +1,5 @@
 import pickle
-import sqlite3
-
-class Database:
-    def __init__(self, db_name):
-        with sqlite3.connect(db_name) as self.connect:
-            self.cursor = self.connect.cursor()
-            self.connect.execute('PRAGMA foreign_keys = on')
-
-    def create_table(self, sql):
-        self.cursor.execute(sql)
-        self.connect.commit()
-
-    def update_table(self, sql, data):
-        self.cursor.execute(sql, data)
-        self.connect.commit()
+from database_base import Database
 
 tbl_dishes_sql = ''' CREATE TABLE IF NOT EXISTS Santa_Dishes ( DishID text PRIMARY KEY, Dish text NOT NULL, Section text NOT NULL ) '''
 tbl_prices_sql = ''' CREATE TABLE IF NOT EXISTS Santa_Prices ( PriceID text PRIMARY KEY, Price real NOT NULL, Section text NOT NUll ) '''

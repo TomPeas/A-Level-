@@ -1,26 +1,8 @@
 import hashlib
-import sqlite3
 import uuid
 from tkinter import *
-
-class Database:
-    def __init__(self, db_name):
-        with sqlite3.connect(db_name) as self.connect:
-            self.cursor = self.connect.cursor()
-            self.connect.execute('PRAGMA foreign_keys = on')
-
-    def create_table(self, sql):
-        self.cursor.execute(sql)
-        self.connect.commit()
-
-    def update_table(self, sql, data):
-        self.cursor.execute(sql, data)
-        self.connect.commit()
-
-    def find_password(self, data):
-        self.cursor.execute(''' SELECT Password FROM Login_Info WHERE Username = ? ''', (data,))
-        stored_pass = self.cursor.fetchall()
-        return stored_pass
+from popup import popup
+from database_base import Database
 
 tbl_login_sql = ''' CREATE TABLE IF NOT EXISTS Login_Info(UserID text PRIMARY KEY, Username text NOT NULL, Email text NOT NULL, Password text NOT NULL)'''
 insert_user_sql = ''' INSERT INTO Login_Info( UserID, Username, Email, Password) values (?,?,?,?)'''
@@ -61,15 +43,14 @@ class UserLogin:
 
     def login(self, window):
         username = (self.username.get())
-        user_password = "('"+ str((self.password.get())) + "',)"
-        stored_password = db.find_password(username,)
-        print(user_password)
-        print(stored_password[0])
+        user_password = "('"+ str((self.password.get())) + "',)" # When the password is read from the database it is in this format
+        stored_password = db.find_password(username,) # returns in list with format "('password',)", at pos 0 in list, use as string for comparison
         if user_password == str(stored_password[0]):
-            
+
             window.destroy()
         else:
-            print('doesnt work')
+            box = Tk()
+            popup(box, 'Incorrect Username or Password!')
 
 class Menu:
     def __init__(self, window):
