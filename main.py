@@ -22,6 +22,7 @@ def check_password(hashed_password, user_password):
 class UserLogin:
     def __init__(self, window):
         self.window = window
+        self.window.configure(background = '#808080')
         self.window.title('Login')
 
         top_frame = LabelFrame(self.window)
@@ -39,7 +40,7 @@ class UserLogin:
         bottom_frame.grid(row = 1, column = 0)
 
         Button(bottom_frame, text = 'Login', command = lambda: self.login(window)).grid(row = 0, column = 0)
-        Button(bottom_frame, text = 'Quit', command = lambda: self.window.destroy).grid(row = 0, column = 2)
+        Button(bottom_frame, text = 'Quit', command = lambda: self.window.destroy()).grid(row = 0, column = 2)
 
     def login(self, window):
         username = (self.username.get())
@@ -55,21 +56,28 @@ class UserLogin:
 class Menu:
     def __init__(self, window):
         self.window = window
+        self.window.configure(background = '#808080')
         self.window.title('Start Menu')
 
+        image_frame = LabelFrame(self.window)
+        image_frame.place(x = 10, y = 5)
+        self.img = PhotoImage(file = 'san.png')
+
         top_frame = LabelFrame(self.window)
-        top_frame.grid(row = 0, column = 0)
+        top_frame.place(x = 14, y = 15)
 
         Button(top_frame, text = 'Create Account', command = self.new_user).grid( row = 0, column = 0)
         Button(top_frame, text = 'Login', command = self.login_window).grid( row = 1, column = 0)
         Button(top_frame, text = 'Quit', command = self.window.destroy).grid( row = 3, column = 0)
 
-    def new_user(self):
+    @staticmethod
+    def new_user():
         page2 = Tk()
-        page2.geometry('500x500')
+        page2.geometry('300x100')
         NewUser(page2)
 
-    def login_window(self):
+    @staticmethod
+    def login_window():
         page3 = Tk()
         page3.geometry('500x500')
         UserLogin(page3)
@@ -78,6 +86,7 @@ class Menu:
 class NewUser:
     def __init__(self, window):
         self.window = window
+        self.window.configure(background = '#808080')
         self.window.title('Create Account')
 
         top_frame = LabelFrame(self.window)
@@ -123,6 +132,6 @@ class NewUser:
 
 
 page1 = Tk()
-page1.geometry('500x500')
+page1.geometry('50x120')
 Menu(page1)
 page1.mainloop()
