@@ -19,39 +19,6 @@ def check_password(hashed_password, user_password):
     password, num = hashed_password.split(':')
     return password == hashlib.sha256(num.encode() + user_password.encode()).hexdigest()
 
-class UserLogin:
-    def __init__(self, window):
-        self.window = window
-        self.window.configure(background = '#808080')
-        self.window.title('Login')
-
-        top_frame = LabelFrame(self.window)
-        top_frame.grid(row = 0, column = 0)
-
-        Label(top_frame, text = 'Username:').grid(row = 0, column = 0)
-        self.username = Entry(top_frame)
-        self.username.grid(row = 0, column = 1)
-
-        Label(top_frame, text = 'Password:').grid(row = 1, column = 0)
-        self.password = Entry(top_frame)
-        self.password.grid(row = 1, column = 1)
-
-        bottom_frame = LabelFrame(self.window)
-        bottom_frame.grid(row = 1, column = 0)
-
-        Button(bottom_frame, text = 'Login', command = lambda: self.login(window)).grid(row = 0, column = 0)
-        Button(bottom_frame, text = 'Quit', command = lambda: self.window.destroy()).grid(row = 0, column = 2)
-
-    def login(self, window):
-        username = (self.username.get())
-        user_password = "('"+ str((self.password.get())) + "',)" # When the password is read from the database it is in this format
-        stored_password = db.find_password(username,) # returns in list with format "('password',)", at pos 0 in list, use as string for comparison
-        if user_password == str(stored_password[0]):
-
-            window.destroy()
-        else:
-            box = Tk()
-            popup(box, 'Incorrect Username or Password!')
 
 class Menu:
     def __init__(self, window):
@@ -81,6 +48,46 @@ class Menu:
         page3 = Tk()
         page3.geometry('500x500')
         UserLogin(page3)
+
+
+class UserLogin:
+    def __init__(self, window):
+        self.window = window
+        self.window.configure(background = '#808080')
+        self.window.title('Login')
+
+        top_frame = LabelFrame(self.window)
+        top_frame.grid(row = 0, column = 0)
+
+        Label(top_frame, text = 'Username:').grid(row = 0, column = 0)
+        self.username = Entry(top_frame)
+        self.username.grid(row = 0, column = 1)
+
+        Label(top_frame, text = 'Password:').grid(row = 1, column = 0)
+        self.password = Entry(top_frame)
+        self.password.grid(row = 1, column = 1)
+
+        bottom_frame = LabelFrame(self.window)
+        bottom_frame.grid(row = 1, column = 0)
+
+        Button(bottom_frame, text = 'Login', command = lambda: self.login(window)).grid(row = 0, column = 0)
+        Button(bottom_frame, text = 'Quit', command = lambda: self.window.destroy()).grid(row = 0, column = 2)
+
+    def login(self, window):
+        username = (self.username.get())
+        found = db.find_username(username)
+        if found:
+            user_password = "('"+ str((self.password.get())) + "',)" # When the password is read from the database it is in this format
+            stored_password = db.find_password(username,) # returns in list with format "('password',)", at pos 0 in list, use as string for comparison
+            if user_password == str(stored_password[0]):
+
+                window.destroy()
+            else:
+                box = Tk()
+                popup(box, 'Incorrect Username or Password!')
+        elif not found:
+            box = Tk()
+            popup(box, 'Incorrect Username or Password!')
 
 
 class NewUser:
@@ -129,6 +136,11 @@ class NewUser:
             userid = str(userid)
             data.write(userid)
         window.destroy()
+
+
+class Main:
+    def __init__(self, window):
+        self.window = window
 
 
 page1 = Tk()
