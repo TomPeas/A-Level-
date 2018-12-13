@@ -1,7 +1,7 @@
 import hashlib
 import uuid
 from tkinter import *
-from popup import popup
+from popup import Popup, Lockup
 from database_base import Database
 
 tbl_login_sql = ''' CREATE TABLE IF NOT EXISTS Login_Info(UserID text PRIMARY KEY, Username text NOT NULL, Email text NOT NULL, Password text NOT NULL)'''
@@ -26,9 +26,11 @@ class Menu:
         self.window.configure(background = '#808080')
         self.window.title('Start Menu')
 
-        image_frame = LabelFrame(self.window)
-        image_frame.place(x = 10, y = 5)
-        self.img = PhotoImage(file = 'san.png')
+#        image_frame = LabelFrame(self.window)
+#        image_frame.place(x = 10, y = 5)
+#        logo_img = 'san.png'
+#        Image(url=logo_img)
+#        Label(image_frame, text = Image).grid(row = 0, column = 0)
 
         top_frame = LabelFrame(self.window)
         top_frame.place(x = 14, y = 15)
@@ -55,6 +57,7 @@ class UserLogin:
         self.window = window
         self.window.configure(background = '#808080')
         self.window.title('Login')
+        self.login_attempts = 0
 
         top_frame = LabelFrame(self.window)
         top_frame.grid(row = 0, column = 0)
@@ -74,8 +77,10 @@ class UserLogin:
         Button(bottom_frame, text = 'Quit', command = lambda: self.window.destroy()).grid(row = 0, column = 2)
 
     def login(self, window):
+        msg = 'Incorrect Username or Password!'
         username = (self.username.get())
         found = db.find_username(username)
+        print(found)
         if found:
             user_password = "('"+ str((self.password.get())) + "',)" # When the password is read from the database it is in this format
             stored_password = db.find_password(username,) # returns in list with format "('password',)", at pos 0 in list, use as string for comparison
@@ -84,10 +89,10 @@ class UserLogin:
                 window.destroy()
             else:
                 box = Tk()
-                popup(box, 'Incorrect Username or Password!')
+                Popup(box, msg)
         elif not found:
             box = Tk()
-            popup(box, 'Incorrect Username or Password!')
+            Popup(box, msg)
 
 
 class NewUser:

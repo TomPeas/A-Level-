@@ -20,9 +20,9 @@ class Database:
         return stored_pass
 
     def find_username(self, data):
-        found = False
+        s_data = "('" + str(data) + "',)"  # When the the username is read from the database it is in this format
         self.cursor.execute(''' SELECT Username FROM Login_Info ''')
-        stored_username = self.cursor.fetchall()
-        if data in stored_username:
-            found = True
+        stored_usernames = [str(each) for each in self.cursor.fetchall()]
+        if s_data in stored_usernames:
+            return True
         return False
