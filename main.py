@@ -80,20 +80,28 @@ class UserLogin:
         msg = 'Incorrect Username or Password!'
         username = (self.username.get())
         found = db.find_username(username)
-        print(found)
         if found:
             user_password = "('"+ str((self.password.get())) + "',)" # When the password is read from the database it is in this format
             stored_password = db.find_password(username,) # returns in list with format "('password',)", at pos 0 in list, use as string for comparison
             if user_password == str(stored_password[0]):
 
                 window.destroy()
-            else:
+            elif user_password != str(stored_password[0]) and self.login_attempts < 3:
                 box = Tk()
                 Popup(box, msg)
-        elif not found:
+                self.login_attempts += 1
+            elif user_password != str(stored_password[0]) and self.login_attempts >= 3:
+                box = Tk()
+                Lockup(box, msg)
+                self.login_attempts = 0
+        elif not found and self.login_attempts < 3:
             box = Tk()
             Popup(box, msg)
-
+            self.login_attempts += 1
+        elif not found and self.login_attempts >= 3:
+            box = Tk()
+            Lockup(box, msg)
+            self.login_attempts = 0
 
 class NewUser:
     def __init__(self, window):
@@ -143,9 +151,13 @@ class NewUser:
         window.destroy()
 
 
-class Main:
+class MainMenu:
     def __init__(self, window):
         self.window = window
+        self.window.configure(background = '#808080')
+        self.window.title('Main Menu')
+
+
 
 
 page1 = Tk()
