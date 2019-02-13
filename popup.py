@@ -24,5 +24,3 @@ class Lockup:
             time.sleep(1)
         if count == 0:
             Button(popup, text = 'Ok', command = lambda: self.window.destroy()).grid(row = 3, column = 0)
-
-

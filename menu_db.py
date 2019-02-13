@@ -3,7 +3,8 @@ from database_base import Database
 
 tbl_dishes_sql = ''' CREATE TABLE IF NOT EXISTS Santa_Dishes ( DishID text PRIMARY KEY, Dish text NOT NULL, Section text NOT NULL ) '''
 tbl_prices_sql = ''' CREATE TABLE IF NOT EXISTS Santa_Prices ( PriceID text PRIMARY KEY, Price real NOT NULL, Section text NOT NUll ) '''
-tbl_menu_sql = ''' CREATE TABLE IF NOT EXISTS Santa_Menu (ItemID text PRIMARY KEY,
+tbl_menu_sql = ''' CREATE TABLE IF NOT EXISTS Santa_Menu (
+ItemID text PRIMARY KEY,
 DishID text NOT NULL,
 PriceID text NOT NULL,
     FOREIGN KEY (DishID) REFERENCES Santa_Dishes(DishID),
