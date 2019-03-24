@@ -1,6 +1,7 @@
 import hashlib
 import uuid
 from tkinter import *
+from tkinter import ttk
 from popup import Popup, Lockup
 from database_base import Database
 from guis import scrollwheel
@@ -90,7 +91,7 @@ class UserLogin: # window for the user login
             stored_password = db.find_password(username,) # returns in list with format "('password',)", at pos 0 in list, use as string for comparison
             if user_password == str(stored_password[0]):
                 page4 = Tk()
-                page4.geometry('500x500')
+                page4.geometry('1000x500')
                 MainMenu(page4)
                 window.destroy()
             elif user_password != str(stored_password[0]) and self.login_attempts < 3:
@@ -164,6 +165,7 @@ class MainMenu: # main window, displays the items that can be ordered and allows
         self.window.configure(background = '#808080')
         self.window.title('Main Menu')
 
+
         option_frame = LabelFrame(self.window)
         option_frame.grid(row = 0, column = 0)
 
@@ -173,15 +175,26 @@ class MainMenu: # main window, displays the items that can be ordered and allows
        # sb1.pack(side = 'right', fill = 'y')
         display_frame.grid(row = 0, column = 1)
 
+#        self.tree = ttk.Treeview(display_frame)
+#        self.tree['columns'] = ('dishes','prices', 'section')
+#        self.tree.column('dishes', width = 500)
+#        self.tree.column('prices', width = 100)
+#        self.tree.column('section', width = 100)
+#        self.tree.heading('dishes', text = 'Dish')
+#        self.tree.heading('prices', text = 'Price')
+#        self.tree.heading('section', text = 'Section')
+#        self.tree.grid(row = 1, column = 1)
+#        self.all_items(self.tree)
+
         box = Tk()
         sb = Scrollbar(box, orient = 'vertical')
-        order = Listbox(box, width=50, height=20, yscrollcommand=sb.set)
+        order = Listbox(box, width=75, height=20, yscrollcommand=sb.set)
         sb.config(command = order.yview)
         sb.pack(side = 'right', fill = 'y')
         self.order = order
         order.pack(side = 'left', fill = 'both', expand = True )
 
-        Button(option_frame, text = 'All', command = lambda: self.all_items(display_frame, order )).grid(row = 0, column = 0)
+        Button(option_frame, text = 'All', command = lambda: self.all_items(display_frame, order)).grid(row = 0, column = 0)
         Button(option_frame, text = 'Starters', command = self.window.destroy).grid(row = 1, column = 0)
         Button(option_frame, text = 'Soups', command = self.window.destroy).grid(row = 2, column = 0)
         Button(option_frame, text = 'Poultry Dishes', command = self.window.destroy).grid(row = 3, column = 0)
@@ -193,18 +206,63 @@ class MainMenu: # main window, displays the items that can be ordered and allows
         Button(option_frame, text = 'Nice and Noodle Dishes', command = self.window.destroy).grid(row = 9, column = 0)
         Button(option_frame, text = 'Extras', command = self.window.destroy).grid(row = 10, column = 0)
 
-    @staticmethod
-    def all_items(display_frame, order):
+    def all_items(self, display_frame, order):
         items_to_display = mdb.find_all()
-        for i in range(len(items_to_display)):
-            Button(display_frame, text = items_to_display[i],command = lambda i=i : add_to_listbox(items_to_display[i], order, i)).grid(row = i, column = 0)
+        print(len(items_to_display))
+        page2_frame = LabelFrame(self.window)
+        page2_frame.grid(row = 0, column = 1)
+        page3_frame = LabelFrame(self.window)
+        page3_frame.grid(row = 0, column = 1)
+        r=0
+        j=0
+        x=0
+        k=0
+        m=0
+        def menu_page_1(r):
+            page2_frame.grid_remove()
+            page3_frame.grid_remove()
+            display_frame.grid(row = 0, column = 1)
+            for i in range(41):
+                if i < 26:
+                    Button(display_frame, text=items_to_display[i],command=lambda i=i: add_to_listbox(items_to_display[i], order, i)).grid(row=i, column=0)
+                elif i < 42:
+                    Button(display_frame, text=items_to_display[i],command=lambda i=i: add_to_listbox(items_to_display[i], order, i)).grid(row=r, column=2)
+                    r+=1
+        def menu_page_2(j, x):
+            display_frame.grid_remove()
+            page3_frame.grid_remove()
+            page2_frame.grid(row = 0, column = 1)
+            for i in range(42, 83):
+                if i < 68:
+                    Button(page2_frame, text=items_to_display[i],command=lambda i=i: add_to_listbox(items_to_display[i], order, i)).grid(row=j, column=0)
+                    j+=1
+                elif i < 84:
+                    Button(page2_frame, text=items_to_display[i],command=lambda i=i: add_to_listbox(items_to_display[i], order, i)).grid(row=x, column=2)
+                    x+=1
+            Button(page2_frame, text = ' Back', command = lambda : menu_page_1(r)).grid(row = 4, column = 3)
+            Button(page2_frame, text = 'Next', command = lambda : menu_page_3(m,k)).grid(row = 3, column = 3)
+        def menu_page_3(m,k):
+            page2_frame.grid_remove()
+            display_frame.grid_remove()
+            page3_frame.grid(row = 0, column = 1)
+            for i in range(84, 124):
+                if i < 110:
+                    Button(page3_frame, text=items_to_display[i],command=lambda i=i: add_to_listbox(items_to_display[i], order, i)).grid(row=m, column=0)
+                    m+=1
+                if i < 125:
+                    Button(page3_frame, text=items_to_display[i],command=lambda i=i: add_to_listbox(items_to_display[i], order, i)).grid(row=k, column=2)
+                    k+=1
+            Button(page3_frame, text = 'Back', command = lambda : menu_page_2(j,x)).grid(row = 3, column = 3)
+        menu_page_1(r)
+        Button(display_frame, text='Next', command= lambda: menu_page_2(j, x)).grid(row = 3, column = 3)
 
 def add_to_listbox(data, order, i):
-    price = mdb.find_pt('Price', 'PriceID', str(mdb.find_mt('PriceID', 'DishID', str(mdb.find_dt('DishID', 'Dish', str(data))))))
-    item = (str(i) + '.' + ' ' + str(data))
-    order.insert(i, item)
+    split_data = data[0]
+    print(split_data)
+    price = mdb.find_price(mdb.find_menu_price_id((mdb.find_dish_id(split_data))[0][0])[0][0])[0][0]
+    print(price)
+    order.insert(i, split_data, price)
     order.pack()
-
 
 
 

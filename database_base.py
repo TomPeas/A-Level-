@@ -30,18 +30,26 @@ class Database:
         self.cursor.execute(''' SELECT Dish FROM Santa_Dishes ''')
         return self.cursor.fetchall()
 
+    def find_all_price(self):
+        self.cursor.execute(''' SELECT Price FROM Santa_Prices ''')
+        return self.cursor.fetchall()
+
+    def find_all_section(self):
+        self.cursor.execute(''' SELECT Section FROM Santa_Dishes ''')
+        return self.cursor.fetchall()
+
     def find_items(self, data): # finds a specific instance of a dish
         self.cursor.execute(''' SELECT Dish FROM Santa_Dishes WHERE Section = ? ''', (data,))
         return self.cursor.fetchall()
 
-    def find_dt(self, lcolumn, fcolumn, data):
-        self.cursor.execute(''' SELECT ? FROM Santa_Dishes WHERE ? = ?''', (fcolumn, lcolumn, data,))
+    def find_dish_id(self, data):
+        self.cursor.execute(''' SELECT DishID FROM Santa_Dishes WHERE Dish = ?''', (data,))
         return self.cursor.fetchall()
 
-    def find_mt(self, lcolumn, fcolumn, data):
-        self.cursor.execute(''' SELECT ? FROM Santa_Menu WHERE ? = ?''', (fcolumn, lcolumn, data,))
+    def find_menu_price_id(self, data):
+        self.cursor.execute(''' SELECT PriceID FROM Santa_Menu WHERE DishID = ?''', (data,))
         return self.cursor.fetchall()
 
-    def find_pt(self, lcolumn, fcolumn, data):
-        self.cursor.execute(''' SELECT ? FROM Santa_Prices WHERE ? = ?''', (fcolumn, lcolumn, data,))
+    def find_price(self, data):
+        self.cursor.execute(''' SELECT Price FROM Santa_Prices WHERE PriceID = ?''', (data,))
         return self.cursor.fetchall()
